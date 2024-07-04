@@ -2,6 +2,7 @@ import time
 import logging
 import queue
 import os
+import schedule
 
 from api import types
 from api.values import Config, Downloader
@@ -18,25 +19,38 @@ class PeriodServer:
         self.source_providers = source_providers
         self.queue = queue.Queue()
 
-    def run_producer(self) -> None:
+    def schedule_tasks(self):
+        for provider in self.source_providers:
+            period_seconds = provider.get_period_seconds()
+            cron_schedule = provider.get_cron_schedule()
+
+            if cron_schedule:
+                schedule.every().day.at(cron_schedule).do(self.queue.put, provider)
+            elif period_seconds:
+                schedule.every(period_seconds).seconds.do(self.queue.put, provider)
+            else:
+                # 默认周期
+                schedule.every(self.period_seconds).seconds.do(self.queue.put, provider)
+
+    def run_scheduler(self):
+        self.schedule_tasks()
         while True:
-            self.queue.put(True)
-            time.sleep(self.period_seconds)
+            schedule.run_pending()
+            time.sleep(1)
 
     def run_consumer(self) -> None:
         while True:
-            time.sleep(1)
-            get_trigger = self.queue.get()
-            if get_trigger is None:
+            provider = self.queue.get()
+            if provider is None:
                 continue
 
-            err = None
-            for provider in self.source_providers:
-                err = self.run_single_provider(provider)
+            err = self.run_single_provider(provider)
+            # for provider in self.source_providers:
+            #     err = self.run_single_provider(provider)
 
             if err is not None:
                 # If error, try again
-                self.queue.put(True)
+                self.queue.put(provider)
 
     def trigger_run(self) -> None:
         self.queue.put(True)

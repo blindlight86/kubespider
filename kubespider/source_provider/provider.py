@@ -46,17 +46,25 @@ class SourceProvider(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def get_period_seconds(self) -> int:
+        pass
+    
+    @abc.abstractmethod
+    def get_cron_schedule(self) -> str:
+        pass
+
+    @abc.abstractmethod
     def provider_enabled(self) -> bool:
         pass
 
     @abc.abstractmethod
     def is_webhook_enable(self) -> bool:
         pass
-
+    
     @abc.abstractmethod
     def should_handle(self, event: Event) -> bool:
         pass
-
+    
     # Return the download resources for the source provider
     @abc.abstractmethod
     def get_links(self, event: Event) -> list[Resource]:

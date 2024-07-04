@@ -70,6 +70,12 @@ class GeneralRssSourceProvider(provider.SourceProvider):
     def get_provider_listen_type(self) -> str:
         return self.provider_listen_type
 
+    def get_period_seconds(self) -> int:
+        return self.config_reader.read().get('period_seconds', None)
+    
+    def get_cron_schedule(self) -> str:
+        return self.config_reader.read().get('cron_schedule', None)
+
     def provider_enabled(self) -> bool:
         return self.config_reader.read().get('enable', True)
 

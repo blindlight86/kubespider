@@ -74,6 +74,12 @@ class BilibiliVloggerSubscribeSourceProvider(provider.SourceProvider):
     def get_link_type(self) -> str:
         return self.link_type
 
+    def get_period_seconds(self) -> int:
+        return self.config_reader.read().get('period_seconds', None)
+    
+    def get_cron_schedule(self) -> str:
+        return self.config_reader.read().get('cron_schedule', None)
+
     def provider_enabled(self) -> bool:
         return self.config_reader.read().get('enable', True)
 
@@ -114,6 +120,7 @@ class BilibiliVloggerSubscribeSourceProvider(provider.SourceProvider):
                 )
                 data_link = f"https://api.bilibili.com/x/space/wbi/arc/search?{urllib.parse.urlencode(signed_params)}"
                 resp = controller.get(data_link, timeout=30).json()
+                logging.info(f"BilibiliVloggerSubscribeSourceProvider resp: {resp}")
                 for video in resp['data']['list']['vlist']:
                     path = video['title']
                     link = "https://www.bilibili.com/video/" + video['bvid']

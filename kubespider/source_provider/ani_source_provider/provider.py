@@ -131,6 +131,12 @@ class AniSourceProvider(provider.SourceProvider):
 
     def get_link_type(self) -> str:
         return types.LINK_TYPE_TORRENT if self.api_type == 'torrent' else types.LINK_TYPE_GENERAL
+    
+    def get_period_seconds(self) -> int:
+        return self.config_reader.read().get('period_seconds', None)
+    
+    def get_cron_schedule(self) -> str:
+        return self.config_reader.read().get('cron_schedule', None)
 
     def provider_enabled(self) -> bool:
         return self.config_reader.read().get('enable', True)

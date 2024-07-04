@@ -51,6 +51,12 @@ class MeijuttSourceProvider(provider.SourceProvider):
     def get_link_type(self) -> str:
         return self.link_type
 
+    def get_period_seconds(self) -> int:
+        return self.config_reader.read().get('period_seconds', None)
+    
+    def get_cron_schedule(self) -> str:
+        return self.config_reader.read().get('cron_schedule', None)
+
     def provider_enabled(self) -> bool:
         return self.config_reader.read().get('enable', True)
 
@@ -70,7 +76,7 @@ class MeijuttSourceProvider(provider.SourceProvider):
         ret = []
         for tv_link in self.tv_links:
             try:
-                resp = self.request_handler.get(tv_link['link'], timeout=30).content
+                resp = self.request_handler.get(tv_link['link'], timeout=30, verify=False).content
             except Exception as err:
                 logging.info('meijutt_source_provider get links error:%s', err)
                 continue

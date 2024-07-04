@@ -49,6 +49,7 @@ btbtt12_disposable_source_provider:
 meijutt_source_provider:
   type: meijutt_source_provider
   enable: true
+  period_seconds: 7200
   tv_links: [ ]
 bilibili_source_provider:
   type: bilibili_source_provider
