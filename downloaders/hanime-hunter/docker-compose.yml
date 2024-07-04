@@ -1,0 +1,15 @@
+services:
+  hanihunter-server:
+    build:
+      context: .
+      args:
+        DOCKER_BUILDKIT: 1
+    image: blindlight/hanihunter-server
+    container_name: hanihunter-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    ports:
+      - 3091:3091
+    tty: true
