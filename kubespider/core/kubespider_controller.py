@@ -90,15 +90,13 @@ class Kubespider:
 
     def run_period_job_consumer(self) -> None:
         logging.info('Period Server Queue handler start running...')
-        # period_server.kubespider_period_server.run_consumer()
-        consumer_thread = threading.Thread(target=period_server.kubespider_period_server.run_consumer)
-        consumer_thread.start()
+        period_server.kubespider_period_server.run_consumer()
 
-    def run_period_job_producer(self) -> None:
-        logging.info("Period Server producer start running...")
-        # period_server.kubespider_period_server.run_producer()
-        scheduler_thread = threading.Thread(target=period_server.kubespider_period_server.run_scheduler)
-        scheduler_thread.start()
+
+    def run_period_job_scheduler(self) -> None:
+        logging.info("Period Server scheduler start running...")
+        period_server.kubespider_period_server.run_scheduler()
+
 
     def run_download_trigger_job(self) -> None:
         logging.info('Download trigger job start running...')
@@ -109,8 +107,8 @@ class Kubespider:
         notification_server.kubespider_notification_server.run_consumer()
 
     def run(self) -> None:
-        self.run_period_job_producer()
-        self.run_period_job_consumer()
+        _thread.start_new_thread(self.run_period_job_scheduler, ())
+        _thread.start_new_thread(self.run_period_job_consumer, ())
         _thread.start_new_thread(self.run_download_trigger_job, ())
         _thread.start_new_thread(self.run_pt_server, ())
         _thread.start_new_thread(self.run_notification_consumer, ())

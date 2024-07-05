@@ -30,6 +30,7 @@ import source_provider.tiktok_source_provider.provider as tiktok_source_provider
 import source_provider.bilibili_vlogger_subscribe_source_provider.provider as bilibili_vlogger_subscribe_source_provider
 import source_provider.alist_source_provider.provider as alist_source_provider
 import source_provider.ani_source_provider.provider as ani_source_provider
+import source_provider.hanime_source_provider.provider as hanime_source_provider
 import download_provider.aria2_download_provider.provider as aria2_download_provider
 import download_provider.xunlei_download_provider.provider as xunlei_download_provider
 import download_provider.qbittorrent_download_provider.provider as qbittorrent_download_provider
@@ -38,6 +39,7 @@ import download_provider.ytdlp_download_provider.provider as ytdlp_download_prov
 import download_provider.transmission_download_provider.provider as transmission_download_provider
 import download_provider.tiktok_dlp_download_provider.provider as tiktok_dlp_download_provider
 import download_provider.yutto_download_provider.provider as yutto_download_provider
+import download_provider.hanihunter_download_provider.provider as hanihunter_download_provider
 
 import pt_provider.nexusphp_pt_provider.provider as nexusphp_pt_provider
 
@@ -60,6 +62,7 @@ source_provider_init_func = {
     'bilibili_vlogger_subscribe_source_provider': bilibili_vlogger_subscribe_source_provider.BilibiliVloggerSubscribeSourceProvider,
     'alist_source_provider': alist_source_provider.AlistSourceProvider,
     'ani_source_provider': ani_source_provider.AniSourceProvider,
+    'hanime_source_provider': hanime_source_provider.HanimeSourceProvider,
 }
 
 # Download provider init related
@@ -72,6 +75,7 @@ downloader_provider_init_func = {
     'transmission_download_provider': transmission_download_provider.TransmissionProvider,
     'tiktok_download_provider': tiktok_dlp_download_provider.TiktokDownloadProvider,
     'yutto_download_provider': yutto_download_provider.YuttoDownloadProvider,
+    'hanihunter_download_provider': hanihunter_download_provider.HaniHunterDownloadProvider,
 }
 
 # PT provider init related

@@ -1,3 +1,10 @@
+import subprocess
+
+def install(package):
+    subprocess.check_call(["pip", "install", package])
+
+install("schedule")
+
 import time
 import logging
 import queue
@@ -21,6 +28,8 @@ class PeriodServer:
 
     def schedule_tasks(self):
         for provider in self.source_providers:
+            self.run_single_provider(provider)
+            
             period_seconds = provider.get_period_seconds()
             cron_schedule = provider.get_cron_schedule()
 
@@ -40,8 +49,10 @@ class PeriodServer:
 
     def run_consumer(self) -> None:
         while True:
-            provider = self.queue.get()
-            if provider is None:
+            time.sleep(1)
+            try:
+                provider = self.queue.get_nowait()
+            except queue.Empty:
                 continue
 
             err = self.run_single_provider(provider)
