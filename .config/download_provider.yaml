@@ -30,7 +30,7 @@ yutto:
   priority: 1
 aria2:
   type: aria2_download_provider
-  enable: true
+  enable: false
   download_base_path: "/downloads/"
   rpc_endpoint_host: http://127.0.0.1
   rpc_endpoint_port: 6800
@@ -71,3 +71,9 @@ tiktok-dlp:
   http_endpoint_host: http://127.0.0.1
   http_endpoint_port: 3083
   cookie:
+hanihunter:
+  type: hanihunter_download_provider
+  enable: true
+  priority: 7
+  http_endpoint_host: http://127.0.0.1
+  http_endpoint_port: 3091

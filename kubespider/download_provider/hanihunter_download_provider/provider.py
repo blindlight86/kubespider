@@ -45,7 +45,7 @@ class HaniHunterDownloadProvider(DownloadProvider):
         # This downloading tasks is special, other download software could not handle
         # So just return None
         try:
-            path = self.http_endpoint_host + ":" + str(self.http_endpoint_port) + '/api/v1/download'
+            path = f"{self.http_endpoint_host}:{str(self.http_endpoint_port)}/api/v1/download"
             req = self.request_handler.post(path, headers=headers, data=json.dumps(data), timeout=30)
             if req.status_code != 200:
                 logging.error("Send general task error:%s", req.status_code)
